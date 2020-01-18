@@ -31,13 +31,28 @@ sudo docker network ls
 sudo docker network inspect macvlan0
 ```
 
-运行 openwrt
+运行透明代理版 openwrt
 ```
 # ip请替换成自己所处的网段ip
 sudo docker run --privileged --name='openwrt' --net=macvlan0 --ip=192.168.3.254 --detach=true luoqeng/openwrt:18.06.2 /sbin/init
 ```
 `注意：Docker 的 IPAM 驱动程序不知道外部 DHCP 客户端已在使用的 IP 地址，从而导致子网中可能存在 IP 地址冲突。不应该让外部 DHCP 服务器与您在创建 macvlan 网络时配置的同一子网分配 IP 地址。但我们是单网卡路由忽略这一点，取后面几位 IP 尽量避免冲突 :)`
 
+运行原版 openwrt
+```
+#导入镜像
+docker import https://downloads.openwrt.org/releases/18.06.2/targets/x86/64/openwrt-18.06.2-x86-64-generic-rootfs.tar.gz openwrt:18.06.2
+
+#创建并启动容器
+docker run -d \
+    --restart unless-stopped \
+    --network macvlan0 \
+    --ip=192.168.3.254 \
+    --privileged \
+    --name openwrt \
+    openwrt:18.06.2 \
+    /sbin/init
+```
 
 验证 openwrt 是否正在运行
 ```
