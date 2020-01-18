@@ -148,6 +148,5 @@ ip route
  - openwrt root 密码 passwd@#2048，浏览器输入 192.168.3.254 访问 LuCI 自行添加 Shadowsocks 服务器。
 
 ### 其他
-推荐使用[gost h2协议](https://github.com/luoqeng/OpenWrt-on-VMware#%E5%85%B6%E4%BB%96)
 
 参考: https://hicu.be/docker-networking-macvlan-bridge-mode-configuration
