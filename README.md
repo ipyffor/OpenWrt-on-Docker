@@ -1,6 +1,6 @@
 # docker 运行 openwrt 
 
-openwrt 是单网卡，已配置好透明代理，可智能翻墙
+openwrt 单网卡 旁路有
 
 以下所有 ip subnet gateway parent 根据自己网络环境调整
 
