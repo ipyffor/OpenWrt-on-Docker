@@ -1,6 +1,6 @@
 # docker 运行 openwrt 
 
-openwrt 单网卡 旁路有
+openwrt 单网卡 旁路由
 
 以下所有 ip subnet gateway parent 根据自己网络环境调整
 
