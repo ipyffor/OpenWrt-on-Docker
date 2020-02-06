@@ -92,7 +92,7 @@ config interface 'lan'
 /etc/init.d/network restart
 ```
 
-### 配置 docker host 
+### 配置 docker host （可选）
 
 创建一个名为 macvlan1 的新 macvlan 网络，让其通过 openwrt 上网
 ```
