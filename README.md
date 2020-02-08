@@ -47,7 +47,8 @@ sudo docker run \
     luoqeng/openwrt:18.06.2 \
     /sbin/init
 ```
-`注意：Docker 的 IPAM 驱动程序不知道外部 DHCP 客户端已在使用的 IP 地址，从而导致子网中可能存在 IP 地址冲突。不应该让外部 DHCP 服务器与您在创建 macvlan 网络时配置的同一子网分配 IP 地址。但我们是单网卡路由忽略这一点，取后面几位 IP 尽量避免冲突 :)`
+
+当前各种自发明加密协议基本残废，跑在 [TLS](https://github.com/shadowsocks/v2ray-plugin) 协议里面比较稳妥，推荐搭配。
 
 运行原版 openwrt
 ```
@@ -66,6 +67,8 @@ sudo docker run -d \
     openwrt:18.06.2 \
     /sbin/init
 ```
+
+`注意：Docker 的 IPAM 驱动程序不知道外部 DHCP 客户端已在使用的 IP 地址，从而导致子网中可能存在 IP 地址冲突。不应该让外部 DHCP 服务器与您在创建 macvlan 网络时配置的同一子网分配 IP 地址。但我们是单网卡路由忽略这一点，取后面几位 IP 尽量避免冲突 :)`
 
 验证 openwrt 是否正在运行
 ```
