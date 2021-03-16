@@ -46,7 +46,20 @@ sudo docker run \
     --detach=true \
     luoqeng/openwrt:18.06.2 \
     /sbin/init
+    
+# 带openclash  
+sudo docker run \
+    --privileged \
+    --name='openwrt' \
+    --net=macvlan0 \
+    --ip=192.168.3.254 \
+    --detach=true \
+    hou6807628/openwrt \
+    /sbin/init
+    
 ```
+
+
 
 当前各种自发明加密协议基本残废，跑在 [TLS](https://github.com/shadowsocks/v2ray-plugin) 协议里面比较稳妥，推荐搭配。
 
@@ -95,7 +108,7 @@ config interface 'lan'
 /etc/init.d/network restart
 ```
 
-### 配置 docker host （可选）
+### 配置 docker host 
 
 创建一个名为 macvlan1 的新 macvlan 网络，让其通过 openwrt 上网
 ```
