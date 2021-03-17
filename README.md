@@ -47,8 +47,10 @@ sudo docker run \
     luoqeng/openwrt:18.06.2 \
     /sbin/init
     
-# 带openclash  
+# 带openclash 
+# --restart always开机自启
 sudo docker run \
+	--restart always
     --privileged \
     --name='openwrt' \
     --net=macvlan0 \
@@ -110,19 +112,25 @@ config interface 'lan'
 
 ### 配置 docker host 
 
+因为macvlan默认不能与宿主机通信，因此需要曲线救国：在本机创建一个macvlan，和docker创建的macvlan在同一网段，同一网关
+
+方式一重启失效
+
+### 方式一
+
 创建一个名为 macvlan1 的新 macvlan 网络，让其通过 openwrt 上网
 ```
-sudo ip link add macvlan1 link ens34 type macvlan mode bridge
+sudo ip link add macvlan1 link enp3s0 type macvlan mode bridge
 ```
 
 删除老的路由
 ```
-sudo ip route del 192.168.3.0/24
+sudo ip route del 192.168.101.0/24
 ```
 
 设置 macvlan1 ip
 ```
-sudo ip addr add 192.168.3.253/24 dev macvlan1
+sudo ip addr add 192.168.101.253/24 dev macvlan1
 ```
 
 启用 macvlan1
@@ -154,6 +162,41 @@ ip a
 ```
 ip route
 ```
+
+### 方式二
+
+采用netctl保存配置
+
+```shell
+vim /etc/netctl/macvlan1
+```
+```
+Description='Virtual LAN with random MAC address on interface eth0'
+Interface=mac0
+Connection=macvlan
+# The variable name is plural, but needs precisely one interface
+BindsToInterfaces=enp3s0
+# MACVLAN Mode
+Mode="bridge"
+# Optional static MAC Address for MACVLAN interface
+#MACAddress="12:34:56:78:9a:bc"
+IP=static
+Address="192.168.101.253/24"
+Gateway="192.168.101.254"
+DNS=("192.168.101.254")
+Hostname="macvlan1"
+#DNSDomain="mydomain.com"
+#DNSSearch="mydomain.com"
+```
+
+```shell
+sudo netctl enable macvlan1 #开机自启
+sudo netctl start macvlan1
+```
+
+
+
+
 
 ### 网络内其他主机上网
 
